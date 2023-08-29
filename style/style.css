@@ -17,6 +17,8 @@ h1 {
 
 /* board */
 
+
+
 #container {
     display: flex;
     width: 300px;
@@ -26,6 +28,15 @@ h1 {
     position: relative;
     margin-right: auto;
     margin-left: auto;
+}
+
+.hide {
+    display: none;
+    visibility: hidden;
+} 
+
+.hidden {
+    display: none;
 }
 
 .box {
@@ -71,9 +82,7 @@ h1 {
 
 /* hide */
 
-/* .hide {
-    display: none;
-} */
+
 
 /* score */
 
@@ -119,6 +128,6 @@ h1 {
     background-color: #000;
     color: #fff;
     padding: 20px;
-    display: none;
+    
 
 }

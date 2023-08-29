@@ -26,6 +26,11 @@ for (let i = 0; i < boxes.length; i++){
             // computing 
             if (player1 == player2) {
                 player1++;
+
+                if (secondPlayer == "ai-player") {
+                    aiPlay();
+                    player2++;
+                }
             } else {
                 player2++;
             }
@@ -34,6 +39,21 @@ for (let i = 0; i < boxes.length; i++){
         }
 
         
+    })
+}
+
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function(){
+        secondPlayer = this.getAttribute("id");
+
+        for (let j = 0; j < buttons.length; j++){
+            buttons[j].style.display = "none";
+        }
+
+        setTimeout(function() {
+            let container = document.querySelector("#container");
+            container.classList.remove("hide");
+        }, 500)
     })
 }
 
@@ -70,9 +90,9 @@ function checkWin(){
         
         if (b1Child == "x" && b2Child == "x" && b3Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         } else if (b1Child == "o" && b2Child == "o" && b3Child == "o") {
-            //o win
+            declareWinner("o");
         }
     }
 
@@ -83,9 +103,10 @@ function checkWin(){
 
         if (b4Child == "x" && b5Child == "x" && b6Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         } else if (b4Child == "o" && b5Child == "o" && b6Child == "o") {
             //o win
+            declareWinner("o");
         }
     }
 
@@ -97,9 +118,10 @@ function checkWin(){
         
         if (b7Child == "x" && b8Child == "x" && b9Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         }  else if (b7Child == "o" && b8Child == "o" && b9Child == "o") {
             //o win
+            declareWinner("o");
         }
     }
 
@@ -114,9 +136,10 @@ function checkWin(){
         
         if (b1Child == "x" && b4Child == "x" && b7Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         }  else if (b1Child == "o" && b4Child == "o" && b7Child == "o") {
             //o win
+            declareWinner("o");
         }
     }
 
@@ -128,9 +151,10 @@ function checkWin(){
         
         if (b2Child == "x" && b5Child == "x" && b8Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         }  else if (b2Child == "o" && b5Child == "o" && b8Child == "o") {
             //o win
+            declareWinner("o");
         }
     }
 
@@ -142,9 +166,10 @@ function checkWin(){
         
         if (b3Child == "x" && b6Child == "x" && b9Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         } else if (b3Child == "o" && b6Child == "o" && b9Child == "o") {
             //o win
+            declareWinner("o");
         }
     }
 
@@ -159,9 +184,10 @@ function checkWin(){
         
         if (b1Child == "x" && b5Child == "x" && b9Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         } else if (b1Child == "o" && b5Child == "o" && b9Child == "o") {
             //o win
+            declareWinner("o");
         }
     }
 
@@ -173,9 +199,10 @@ function checkWin(){
         
         if (b3Child == "x" && b5Child == "x" && b7Child == "x") {
             //x win
-            console.log("x wins");
+            declareWinner("x");
         } else if (b3Child == "o" && b5Child == "o" && b7Child == "o") {
             //o win
+            declareWinner("o");
         }
     }
 
@@ -188,11 +215,67 @@ function checkWin(){
     }
 
     if (counter == 9) {
-        console.log("draw");
+        declareWinner("");
     }
 
 
 
     
 
+}
+
+function declareWinner(winner){
+    let scoreboardX = document.querySelector("#score-1");
+    let scoreboardY = document.querySelector("#score-2");
+    let msg = '';
+
+    if(winner == 'x') {
+        scoreboardX.textContent = parseInt(scoreboardX.textContent) + 1;
+        msg = "Player 1 Wins";
+    } else if(winner == "o") {
+        scoreboardY.textContent = parseInt(scoreboardY.textContent) + 1;
+        msg = "Player 2 Wins";
+    } else {
+        msg = "Draw";
+    }
+
+    messageText.innerHTML = msg;
+    messageContainer.classList.remove("hide");
+
+    setTimeout(function(){
+        messageContainer.classList.add("hide");
+    }, 3000);
+
+    player1 = 0;
+    player2 = 0;
+
+    let boxesRemove = document.querySelectorAll(".box div");
+    for (let i = 0; i < boxesRemove.length; i++) {
+        boxesRemove[i].parentNode.removeChild(boxesRemove[i]);
+    }
+}
+
+function aiPlay(){
+    let cloneO = o.cloneNode(true);
+    counter = 0;
+    filled = 0;
+
+    for (let i = 0; i < boxes.length; i++)
+    {
+        let randomNumber = Math.floor(Math.random() * 5);
+
+        if (boxes[i].childNodes[0] == undefined) {
+            if (randomNumber <= 1) {
+                boxes[i].appendChild(cloneO);
+                counter++;
+                break;
+            }
+        } else {
+            filled++;
+        }
+    }
+
+    if(counter == 0 && filled < 9) {
+        aiPlay();
+    }
 }
